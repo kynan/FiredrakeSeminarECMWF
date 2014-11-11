@@ -798,6 +798,38 @@ while t <= T:
 
 ---
 
+## Cahn-Hilliard Equation
+
+.pull-left[
+4th-order parabolic time-dependent non-linear equation:
+1st-order time derivatives, 2nd- and 4th-order
+spatial derivatives
+`\[ \begin{align} \frac{\partial c}{\partial t} - \nabla \cdot M \left(\nabla\left(\frac{d f}{d c} - \lambda \nabla^{2}c\right)\right) &= 0 \quad {\mathrm in} \ \Omega, \\ M\left(\nabla\left(\frac{d f}{d c} - \lambda \nabla^{2}c\right)\right) &= 0 \quad {\mathrm on} \ \partial\Omega, \\ M \lambda \nabla c \cdot n &= 0 \quad {\mathrm on} \ \partial\Omega \end{align} \]`
+
+`$c$`: unknown fluid concentration  
+`$f$`: non-convex function in `$c$`  
+`$M$`: diffusion coefficient  
+`$n$`: outward pointing normal.
+
+Introduce auxiliary quantity `$\mu$`, the chemical potential.  
+Rephrase as 2 coupled 2nd-order equations:
+`\[ \begin{align} \frac{\partial c}{\partial t} - \nabla \cdot M \nabla\mu  &= 0 \quad {\mathrm in} \ \Omega, \\ \mu -  \frac{d f}{d c} + \lambda \nabla^{2}c &= 0 \quad {\mathrm in} \ \Omega. \end{align} \]`
+]
+.pull-right[
+The time-dependent variational form of the problem with unknown fields `$c$` and
+`$\mu$` is given as: find `$(c, \mu) \in V \times V$` such that
+
+`\[ \begin{align} \int_{\Omega} \frac{\partial c}{\partial t} q \, {\mathrm d} x + \int_{\Omega} M \nabla\mu \cdot \nabla q \, {\mathrm d} x &= 0 \quad \forall \ q \in V,  \\ \int_{\Omega} \mu v \, {\mathrm d}x - \int_{\Omega} \frac{d f}{d c} v \, {\mathrm d}x - \int_{\Omega} \lambda \nabla c \cdot \nabla v \, {\mathrm d} x &= 0 \quad \forall \ v \in V \end{align} \]`
+
+for a suitable function space `$V$`.
+
+Crank-Nicolson time discretisation scheme:
+`\[ \begin{align} \int_{\Omega} \frac{c_{n+1} - c_{n}}{dt} q \, {\mathrm d} x + \int_{\Omega} M \nabla \frac{1}{2}(\mu_{n+1} + \mu_{n}) \cdot \nabla q \, {\mathrm d} x &= 0 \\ \int_{\Omega} \mu_{n+1} v  \, {\mathrm d} x - \int_{\Omega} \frac{d f_{n+1}}{d c} v  \, {\mathrm d} x - \int_{\Omega} \lambda \nabla c_{n+1} \cdot \nabla v \, {\mathrm d} x &= 0 \\ \forall \ q \in V, \forall \ v \in V \end{align} \]`
+
+]
+
+---
+
 ### Cahn-Hilliard Equation Strong Scaling on UK National Supercomputer ARCHER
 
 .scale[![Cahn-Hilliard strong scaling](plots/CahnHilliardStrong.svg)]
