@@ -6,4 +6,4 @@ class: center, middle, inverse
 
 ## **Florian Rathgeber**
 
-# Moved to TOMORROW Tue, Nov 11th 2pm, Weather Room
+# TODAY Tue, Nov 11th 2pm, Weather Room
