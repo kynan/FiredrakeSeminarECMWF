@@ -35,7 +35,7 @@ li p { line-height: 1.25em; }
 .red { color: #fa0000; }
 .large { font-size: 2em; }
 a, a > code {
-  color: rgb(249, 38, 114);
+  color: #8c1b1e;
   text-decoration: none;
 }
 .remark-code {
