@@ -530,21 +530,20 @@ a = (dot(grad(v), grad(u)) - lmbda * v * u) * dx
 ```c
 // A - local tensor to assemble
 // x - local coordinates
-// j, k - 2D indices into the local assembly matrix
-void kernel(double A[1][1], double *x[2],
-            int j, int k) {
+void helmholtz_kernel(double A[3][3], double *x[2]) {
   // FE0 - Shape functions
   // Dij - Shape function derivatives
   // Kij - Jacobian inverse / determinant
   // W3  - Quadrature weights
   // det - Jacobian determinant
-  for (unsigned int ip = 0; ip < 3; ip++) {
-    A[0][0] += (FE0[ip][j] * FE0[ip][k] * (-1.0)
-      + (((K00 * D10[ip][j] + K10 * D01[ip][j]))
-        *((K00 * D10[ip][k] + K10 * D01[ip][k]))
-      +  ((K01 * D10[ip][j] + K11 * D01[ip][j]))
-        *((K01 * D10[ip][k] + K11 * D01[ip][k]))))*W3[ip]*det;
-  }
+  for (unsigned int j = 0; j < 3; j++)
+    for (unsigned int k = 0; k < 3; k++)
+      for (unsigned int ip = 0; ip < 3; ip++)
+        A[j][k] += (FE0[ip][j] * FE0[ip][k] * (-1.0)
+          + (  ((K00 * D10[ip][j] + K10 * D01[ip][j]))
+              *((K00 * D10[ip][k] + K10 * D01[ip][k]))
+             + ((K01 * D10[ip][j] + K11 * D01[ip][j]))
+              *((K01 * D10[ip][k] + K11 * D01[ip][k]))))*W3[ip]*det;
 }
 ```
 ]
