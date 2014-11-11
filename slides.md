@@ -721,11 +721,16 @@ solve(A, p, b, bcs=bcs)  # bcs consistent, no need to reassemble
 
 ---
 
-## Benchmarks
+.pull-left[
+## Benchmarks: Firedrake vs. FEniCS/DOLFIN
 
-### ARCHER: Cray XC30 with Aries interconnect (Dragonfly topology)
-* 2x 12-core Intel Xeon E5-2697 @ 2.70GHz (Ivy Bridge)
-* 64GB RAM
+.scale[![Firedrake](http://firedrakeproject.org/_static/banner.png)]
+
+.scale[![FEniCS](http://fenicsproject.org/_static/fenics_banner.png)]
+]
+.pull-right[
+### ARCHER: Cray XC30 with Aries interconnect
+Per node: 2x 12-core Intel Xeon E5-2697 @ 2.70GHz (Ivy Bridge, linked via QPI), 64GB 1833MHz DDR3 RAM
 
 ### Compilers
 * GNU Compilers 4.8.2
@@ -741,6 +746,7 @@ solve(A, p, b, bcs=bcs)  # bcs consistent, no need to reassemble
 * DOLFIN + Firedrake: RCM mesh reordering enabled
 * DOLFIN: quadrature with optimisations enabled
 * Firedrake: quadrature with COFFEE loop-invariant code motion, alignment and padding
+]
 
 ---
 
