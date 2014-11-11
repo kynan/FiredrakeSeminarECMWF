@@ -721,6 +721,89 @@ solve(A, p, b, bcs=bcs)  # bcs consistent, no need to reassemble
 
 ---
 
+## Benchmarks
+
+### ARCHER: Cray XC30 with Aries interconnect (Dragonfly topology)
+* 2x 12-core Intel Xeon E5-2697 @ 2.70GHz (Ivy Bridge)
+* 64GB RAM
+
+### Compilers
+* GNU Compilers 4.8.2
+* Cray MPICH 6.3.1
+* Compiler flags: -O3 -mavx
+
+### Software
+* DOLFIN 30bbd31 (August 22 2014)
+* Firedrake c8ed154 (September 25 2014)
+* PyOP2 f67fd39 (September 24 2014)
+
+### Problem setup
+* DOLFIN + Firedrake: RCM mesh reordering enabled
+* DOLFIN: quadrature with optimisations enabled
+* Firedrake: quadrature with COFFEE loop-invariant code motion, alignment and padding
+
+---
+
+.left40[
+## Explicit Wave Equation
+
+2nd order PDE:
+`$$\frac{\partial^2\phi}{\partial t^2} - \nabla^2 \phi = 0$$`
+
+Formulation with 1st order time derivatives:
+`$$\frac{\partial\phi}{\partial t} = - p$$`
+`$$\frac{\partial p}{\partial t} + \nabla^2 \phi = 0$$`
+
+Symplectic time stepping scheme
+]
+.right60[
+```python
+from firedrake import *
+mesh = Mesh("wave_tank.msh")
+
+V = FunctionSpace(mesh, 'Lagrange', 1)
+p = Function(V, name="p")
+phi = Function(V, name="phi")
+
+u = TrialFunction(V)
+v = TestFunction(V)
+
+p_in = Constant(0.0)
+bc = DirichletBC(V, p_in, 1)  # for y=0
+
+T = 10.
+dt = 0.001
+t = 0
+
+b = assemble(rhs)
+dphi = 0.5 * dtc * p
+dp = dtc * Ml * b
+
+while t <= T:
+    p_in.assign(sin(2*pi*5*t))
+    phi -= dphi
+    assemble(rhs, tensor=b)
+    p += dp
+    bc.apply(p)
+    phi -= dphi
+    t += dt
+```
+]
+
+---
+
+### Explicit Wave Equation Strong Scaling on UK National Supercomputer ARCHER
+
+.scale[![Explicit wave strong scaling](plots/WaveStrong.svg)]
+
+---
+
+### Cahn-Hilliard Equation Strong Scaling on UK National Supercomputer ARCHER
+
+.scale[![Cahn-Hilliard strong scaling](plots/CahnHilliardStrong.svg)]
+
+---
+
 ## Summary and additional features
 
 ### Summary
