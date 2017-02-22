@@ -725,7 +725,7 @@ solve(A, p, b, bcs=bcs)  # bcs consistent, no need to reassemble
 
 .scale[![Firedrake](http://firedrakeproject.org/_static/banner.png)]
 
-.scale[![FEniCS](https://fenicsproject.org/_static/fenics_banner.png)]
+.scale[![FEniCS](https://fenicsproject.org/wp-content/uploads/2016/12/fenics_banner.svg)]
 ]
 .pull-right[
 ### ARCHER: Cray XC30 with Aries interconnect
